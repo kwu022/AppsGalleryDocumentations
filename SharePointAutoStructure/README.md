@@ -1,4 +1,31 @@
-# SharePoint-Auto-Structure
+# Purpose
+
+The Out of the Box SharePoint Online integration creates a document library for a Dynamics 365 Customer Engagement table. All the records in the table have their respective folders in that SharePoint document library.
+
+Overtime, when you have many records in the table and uploaded many files for the records, users will see an error message "The number of items in this list exceeds the list view threshold." when navigate to the Documents table of a record.
+
+This is a SharePoint Online service limit, as described here: https://learn.microsoft.com/en-us/troubleshoot/sharepoint/lists-and-libraries/items-exceeds-list-view-threshold.
+
+Another scenario is when you have customizations in SharePoint to break inheritance of a folder in a document library in order to match the security permissions of the respective record in Dynamics 365. You will likely see the following messages:
+
+- You can't share this folder because there are too many items in the folder.
+- You can't share this item because too many items have already been shared in this library.
+
+This is another SharePoint Online service limit, as described here: https://learn.microsoft.com/en-us/troubleshoot/sharepoint/lists-and-libraries/error-share-break-inheritance
+
+The solution to both problems is to reduce the number of items in a SharePoint document library. There isn't an Out of the Box feature in Dynamics 365 will allow you to dynamically decide the location of SharePoint document library and folder should be created for the Dynamics 365 record.
+
+Apps Gallery SharePoint Auto Structure addon is here to overcome these problems. It allows a Dynamics 365 admin to define configurable rules that generate the appropriate document library and folder locations in Dynamics 365. The defined rules are evaluated on the fly when user navigates to the Documents tab of a Dynamics 365 record.
+
+# Key Features
+
+- Create document library Per Period (year, quarter, month, week, day or custom)
+- Create document library Per Dynamics 365 record
+- Create document library using specified number of characters from the primary name attribute of the record
+- Create document library using specified number of characters from record's system GUID
+- Create document library using custom JavaScript code that will be evaluated at run-time.
+- Create folder using a specified naming pattern.
+- Create folder using custom JavaScript code that will be evaluated at run-time.
 
 
 
@@ -6,8 +33,9 @@
 
 You will need to ensure Document Management setting is configured in Dynamics 365 CE.
 
-## Step 1 - Configure Document Management
-In the D365 instance that you want to install SharePoint Auto Structure addon, navigate to the Power Platform Environment Settings model-driven app.
+## Step 1 - Configure server-based SharePoint integration
+
+In the D365 instance that you want to install SharePoint Auto Structure addon, navigate to the Power Platform Environment Settings model-driven app. Then select Document Management in the left navigation pane.
 
 Click the "Configure server-based SharePoint integration" link as shown in below screenshot.
 
@@ -19,94 +47,248 @@ One Drive setup in wizard is optional, you can safely skip that.
 
 Once the wizard is completed successfully, you can click the SharePoint sites link in above screenshot to verify a SharePoint site record is created.
 
+## Step 2 - Configure document management settings
 
-## Create App Registration
-Login to portal.azure.com and go to Microsoft Entra ID.
+Navigate to the Power Platform Environment Settings model-driven app again, and go to Document management.
 
-In the left hand side pane, click App registrations.
+Click the "Document management settings". In the popout window, select the tables that you want to enable SharePoint document management.
+
+![alt text](EnableTablesForSP.png)
+
+Click Next, you will then enter the SharePoint site collection URL, which is the one you used in Step 1.
+
+![alt text](SPUrlValidation.png)
+
+Click the Validate URL button to validate the SharePoint URL. Once it is validated, the Next button at th bottom will be enabled.
+
+In the Folder Structure step, leave default value. App Gallery SharePoint Auto Structure addon will intercept this out of the box logic anyway.
+
+![alt text](FolderStructure.png)
+
+Click Next to finish the setup.
+
+## Step 3 - Create App Registration
+
+Follow instructions in [Create App Registration for SharePoint Integration](https://apps-gallery.dev/Docs/create-app-registration-for-sharepoint-integration) to create an App Registration with certificate for authentication.
+
+This App Registration and the .PFX file will be used in later configuration in Dynamics 365.
+
+## Step 4 - Configure Apps Gallery SharePoint Auto Structure
+
+Ensure you have entered your license key to activate this addon for your Dynamics 365 organization.
+
+Please refer to [Activate License](https://apps-gallery.dev/Docs/activate-license) for instructions.
+
+Navigate to Apps Gallery SharePoint Auto Structure model-driven app.
+
+Select SharePoint Auto Structure Setting under Structure Configuration area in the left navigation pane.
+
+Click + New to create a new setting record.
+
+![alt text](NewSAS.png)
+
+Select the SharePoint Site from the dropdown, and Save the record.
+
+Once it is saved, you will be presented with extra fields.
+
+![alt text](SASConnection.png)
+
+Enter the following:
+
+- Tenant Id
+- Client Id
+- Upload the .pfx file
+- Password for the .pfx file. Password will be encrypted after saving the record.
+
+You can find the Tenant Id and Client Id in the App Registration you created in Azure Portal.
 
 ![alt text](AppRegistration.png)
 
-Then Click the New registration button in the right hand side pane.
+When you save the record, it will test the connection to the selected SharePoint site.
 
-The following screen will show up.
+If the connection test was successful, you will see the Status of this setting record become Active. Otherwise, you will be presented with an error.
 
-![alt text](NewApp.png)
+# Folder Naming Settings
 
-Enter a name for the app registration, and click Register.
+Naming Rules:
 
-Once it is created, the app registration page will open.
+- Pattern
+- Custom Script
 
-Navigate to API Permissions.
+## Pattern
 
-![alt text](APIPermissions.png)
+When Pattern rule is selected, you can specify a basic pattern in the Pattern field.
 
-Click Add a permission button in the right hand side pane to add below required **Application permissions**.
+![alt text](FolderPattern.png)
 
-- Sites.Manage.All
-- Sites.ReadWrite.All
+- Placeholder {0} is the table schema name
+- Placeholder {1} is the system GUID of the record
 
-![alt text](SelectPermissions.png)
+## Custom Script
 
-Click Add permissions button to complete this step.
+When Custom Script is selected, you can enter JavaScript code in the Folder Name Script tab.
 
-You will then see the permissions are added and being displayed in the configure permissions table. Now click the Grant admin consent button.
+The script must return a string value to be used as the folder name.
 
-**Note:** you will need Global Admin role to be able to grant admin consent.
+Please refer to [JavaScript Custom Script](#javascript-custom-script) for examples.
 
-![alt text](GrantAdminConsent.png)
+# Library Naming Settings
 
-## Generate Certificate
+Naming Rules:
 
-Use below PowerShell script to generate a .cer certificate file.
+- None
+- Period
+- Per Record
+- Starting Name Characters
+- Starting ID Characters
+- Custom Script
 
-``` Powershell
-$cert = New-SelfSignedCertificate -Subject "CN=AppsGallerySPCert" -CertStoreLocation "Cert:\CurrentUser\My" -KeySpec Signature -NotAfter (Get-Date).AddYears(99)
+## None
 
-Export-Certificate -Cert $cert -FilePath "<your local path>\AppsGallerySPCert.cer"
+If None is selected, document library will be generated using table's schema name.
+
+## Period
+
+![alt text](Period.png)
+
+You can specify a pattern to be used.
+
+- Placeholder {0} is the table schema name
+- Placeholder {1} will be replaced with the calculated value of the selected Period
+
+Period is a dropdown that contains the following options:
+
+- Day: Format the selected Period Data Source value to "yyyy-dd".
+- Day and Month: Format the selected Period Data Source value to "yyyy-MMM-dd".
+- Week: Format the selected Period Data Source value to "{Year}-W{Week of Year}". Monday is the start of a week.
+- Month: Format the selected Period Data Source value to "yyyy-MMM".
+- Quarter: Format the selected Period Data Source value to "{Year}-Q{Quarter of Year}".
+- Year: Format the selected Period Data Source value to "{Year}".
+- Custom: When Custom is selected, you can specify the custom Date and Time format string in placeholder {1} after a colon, like {1:yyyy-MM}. Please refer to [Custom date and time format strings](https://learn.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings) for more information.
+
+Period Data Source is the value that will be used to generate the period value.
+
+- UTC Now
+- Created On of Current Record
+
+
+## Per Record
+
+![alt text](PerRecord.png)
+
+There are two patterns you can specify
+
+- Pattern field contains two placeholders
+    - {0} is the table schema name
+    - {1} will be replaced by the calculated value of Record Name Pattern.
+- Record Name Pattern also contains two placeholders
+    - {0} is the record's primary name attribute value
+    - {1} is the record's system GUID
+
+You can also specify a characters in Unknown Character field to replace any special characters in the record's primary name attribute value. If you don't specify anything, special characters will be replaced by empty string.
+
+## Starting Name Characters
+
+![alt text](StartingName.png)
+
+You can specify a pattern to be used.
+
+- Placeholder {0} is the table schema name
+- Placeholder {1} will be replaced with the Number of Name Characters taken from the record's primary name attribute
+
+Enter an integer for Number of Name Characters, maximun is 100.
+
+You can also specify a characters in Unknown Character field to replace any special characters in the record's primary name attribute value. If you don't specify anything, special characters will be replaced by empty string.
+
+## Starting ID Characters
+
+![alt text](StartingId.png)
+
+You can specify a pattern to be used.
+
+- Placeholder {0} is the table schema name
+- Placeholder {1} will be replaced with the Number of Id Characters taken from the record's system GUID without hyphen (-)
+
+Enter an integer for Number of Id Characters, maximun is 32.
+
+## Custom Script
+
+When Custom Script is selected, you can enter JavaScript code in the Library Name Script tab.
+
+The script must return a string value to be used as the document library name.
+
+Please refer to [JavaScript Custom Script](#javascript-custom-script) for examples.
+
+
+# JavaScript Custom Script
+
+Custom script allows you to write custom logics in JavaScript to determine folder name and document library name.
+
+**Important**: the JavaScript code is executed server-side, not in the browser. The normal Client API syntax for model-drive apps does NOT apply here. However, you do follow JavaScript coding syntax.
+
+The following objects (object name is case-sensitive) are available to use in custom script code:
+
+- target: This is the entity record that SharePoint folder and document library are generated against. It is equivalent to Entity object in C# and with all columns.
+- targetMetadata: The entity metadata of the target entity record. It is equivalent to EntityMetadata object in C#.
+- clientService: This is an instance of IOrganizationService object that you can use to query table data.
+- log: This is a shorthand of TracingService.Trace method.
+
+You can also use all Types under System and System.Core namespaces.
+
+## Get target Attribute Values
+
+``` JavaScript
+var name = target.Attributes['name']; // string
+var primaryContact = target.Attributes['primarycontactid']; // EntityReference
+var industry = target.Attributes['industrycode']; // OptionSetValue
+var industryFormatted = target.FormattedValues['industrycode']; // string
+var creditlimit = target.Attributes['creditlimit']; // Money
+var creditonhold = target.Attributes['creditonhold']; // bool
+
+log('Current account name: ' + name);
+log('Current account entity logical name: ' + target.LogicalName);
+log('Current account Id: ' + target.Id.ToString());
+log('Current account primary contact Id: ' + primaryContact.Id.ToString());
+log('Current account primary contact Name: ' + primaryContact.Name);
+log('Current account primary contact Entity Name: ' + primaryContact.LogicalName);
+log('Current account industry: ' + industry.Value);
+log('Current account industry (formatted): ' + industryFormatted);
+log('Current account credit limit: ' + creditlimit.Value);
+log('Current account credit on hold: ' + creditonhold);
 ```
 
-The second line of the script saves the .cer file to your local file system. Browse to that folder to confirm you can see the .cer file.
+## Use targetMetadata Values
 
-Next, click Start menu of your Windows and search for "Manage user certificates".
+``` JavaScript
+log('Current account primary id attribute: ' + targetMetadata.PrimaryIdAttribute);
+log('Current account schema name: ' + targetMetadata.SchemaName);
+log('Current account entity set name: ' + targetMetadata.EntitySetName);
+log('Current account logical name: ' + targetMetadata.LogicalName);
+```
 
-![alt text](ManageCerts.png)
+## Retrieve an Entity Record
 
-Locate the certificate you created, export the private key (.pfx) file to your local disk.
+``` JavaScript
+var account2 = clientService.Retrieve('account', new System.Guid('f0969482-6a51-f111-bec6-6045bdc39b78'), new ColumnSet(true));
+log('Account 2 name: ' + account2.Attributes['name']);
+```
 
-![alt text](ExportPfx.png)
+## Execute a Query
 
-![alt text](IncludePrivateKey.png)
+``` JavaScript
+var query = new QueryExpression('contact');
+query.ColumnSet.AddColumns('fullname');
+query.Criteria.AddCondition(
+    'parentcustomerid',
+    ConditionOperator.Equal,
+    target.Id
+);
 
-![alt text](ExportFileFormat.png)
+var contacts = clientService.RetrieveMultiple(query);
+var contact = contacts.Entities[0];
 
-**Note:** You need to enter a password in below screen. Keep note of the password, you will need to supply it when setting up connection later one.
-
-![alt text](EnterPassword.png)
-
-Then save the .pfx file to you local file system.
-
-You should now have 2 certificate files, one is the .cer file that you will upload against the app registration, another .pfx file will be uploaded into D365.
-
-## Upload .cer to App Registration
-
-Go to Azure portal and location the app registration you just created in previous step.
-
-Click on Certificates & secrets, and locate Certificates tab in the right hand side pane.
-
-![alt text](AddCert.png)
-
-Click Upload certificate and select the .cer file from your local file system.
-
-Once successfully uploaded, you should see the certificate in the list.
-
-Now, go back to Overview page of this app registration.
-
-Take note of the Client Id and Tenant Id as shown below, we will need to use them to complete the connection setup in D365.
-
-![alt text](ClientTenantIds.png)
-
-
+log('First contact name: ' + contact.Attributes['fullname']);
+```
 
 
 
