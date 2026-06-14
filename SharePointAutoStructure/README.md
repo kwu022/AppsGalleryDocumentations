@@ -39,7 +39,7 @@ In the D365 instance that you want to install SharePoint Auto Structure addon, n
 
 Click the "Configure server-based SharePoint integration" link as shown in below screenshot.
 
-![alt text](Configserverbasedintegration.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/Configserverbasedintegration.png?raw=true)
 
 Run through the setup wizard and enter the SharePoint site collection URL that you want to use to store documents.
 
@@ -53,17 +53,17 @@ Navigate to the Power Platform Environment Settings model-driven app again, and 
 
 Click the "Document management settings". In the popout window, select the tables that you want to enable SharePoint document management.
 
-![alt text](EnableTablesForSP.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/EnableTablesForSP.png?raw=true)
 
 Click Next, you will then enter the SharePoint site collection URL, which is the one you used in Step 1.
 
-![alt text](SPUrlValidation.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/SPUrlValidation.png?raw=true)
 
 Click the Validate URL button to validate the SharePoint URL. Once it is validated, the Next button at th bottom will be enabled.
 
 In the Folder Structure step, leave default value. App Gallery SharePoint Auto Structure addon will intercept this out of the box logic anyway.
 
-![alt text](FolderStructure.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/FolderStructure.png?raw=true)
 
 Click Next to finish the setup.
 
@@ -85,13 +85,13 @@ Select SharePoint Auto Structure Setting under Structure Configuration area in t
 
 Click + New to create a new setting record.
 
-![alt text](NewSAS.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/NewSAS.png?raw=true)
 
 Select the SharePoint Site from the dropdown, and Save the record.
 
 Once it is saved, you will be presented with extra fields.
 
-![alt text](SASConnection.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/SASConnection.png?raw=true)
 
 Enter the following:
 
@@ -102,7 +102,7 @@ Enter the following:
 
 You can find the Tenant Id and Client Id in the App Registration you created in Azure Portal.
 
-![alt text](AppRegistration.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/AppRegistration.png?raw=true)
 
 When you save the record, it will test the connection to the selected SharePoint site.
 
@@ -119,7 +119,7 @@ Naming Rules:
 
 When Pattern rule is selected, you can specify a basic pattern in the Pattern field.
 
-![alt text](FolderPattern.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/FolderPattern.png?raw=true)
 
 - Placeholder {0} is the table schema name
 - Placeholder {1} is the system GUID of the record
@@ -149,7 +149,7 @@ If None is selected, document library will be generated using table's schema nam
 
 ## Period
 
-![alt text](Period.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/Period.png?raw=true)
 
 You can specify a pattern to be used.
 
@@ -174,7 +174,7 @@ Period Data Source is the value that will be used to generate the period value.
 
 ## Per Record
 
-![alt text](PerRecord.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/PerRecord.png?raw=true)
 
 There are two patterns you can specify
 
@@ -189,7 +189,7 @@ You can also specify a characters in Unknown Character field to replace any spec
 
 ## Starting Name Characters
 
-![alt text](StartingName.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/StartingName.png?raw=true)
 
 You can specify a pattern to be used.
 
@@ -202,7 +202,7 @@ You can also specify a characters in Unknown Character field to replace any spec
 
 ## Starting ID Characters
 
-![alt text](StartingId.png)
+![alt text](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointAutoStructure/StartingId.png?raw=true)
 
 You can specify a pattern to be used.
 
