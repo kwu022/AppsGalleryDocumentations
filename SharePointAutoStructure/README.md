@@ -27,8 +27,6 @@ Apps Gallery SharePoint Auto Structure addon is here to overcome these problems.
 - Create folder using a specified naming pattern.
 - Create folder using custom JavaScript code that will be evaluated at run-time.
 
-
-
 # Configuration
 
 You will need to ensure Document Management setting is configured in Dynamics 365 CE.
