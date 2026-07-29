@@ -1,3 +1,7 @@
+# Product URL
+
+https://apps-gallery.dev/Apps/sharepoint-documents-upload-grid-for-dataverse
+
 # Purpose
 
 The out-of-the-box SharePoint Documents associated subgrid in Dynamics 365 / Dataverse gives users a basic way to access documents, but it is not a complete working experience. In many organisations, users still have to move between Dynamics 365 and SharePoint to upload files, maintain metadata, choose content types, create folders, or find the right documents. That slows work down and makes consistent document management harder to enforce.
@@ -28,20 +32,20 @@ Business value includes:
 - Display key document information such as name, size, content type, created by, modified by, and date information
 
 ## Screens
-![Documents Grid](DocumentsGrid.png)
+![Documents Grid](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/DocumentsGrid.png?raw=true)
 
 **Upload file(s)**
-![Upload files](UploadFiles.png)
+![Upload files](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/UploadFiles.png?raw=true)
 
 **SharePoint View Selector**
-![View Selector](ViewSelector.png)
+![View Selector](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/ViewSelector.png?raw=true)
 
 If there are multiple views defined in SharePoint, these views will be displayed in grid and user can select which view to use.
 
 The grid displays the columns defined in the SharePoint view.
 
 **In Context Menu**
-![In Context Menu](InContextMenu.png)
+![In Context Menu](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/InContextMenu.png?raw=true)
 
 Right click on a row will display the in context menu with options
 - Download
@@ -54,21 +58,23 @@ Right click on a row will display the in context menu with options
 
 Move one or multiple files into a folder.
 
-![Move Files into a Folder](MoveToFolder.png)
+![Move Files into a Folder](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/MoveToFolder.png?raw=true)
 
 Move one or multiple files to parent folder.
 
-![Move Files to a Parent Folder](MoveToParentFolder.png)
+![Move Files to a Parent Folder](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/MoveToParentFolder.png?raw=true)
 
 And you can move a whole folder as well.
 
-![Move Folder to a Parent Folder](MoveFolderToParentFolder.png)
+![Move Folder to a Parent Folder](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/MoveFolderToParentFolder.png?raw=true)
 
-**Edit a Single File
-![Update Single File Properties](UpdateSingleFileProperties.png)
+**Edit a Single File**
 
-**Bulk Edit
-![Bulk Edit Files](BulkEdit.png)
+![Update Single File Properties](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/UpdateSingleFileProperties.png?raw=true)
+
+**Bulk Edit**
+
+![Bulk Edit Files](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/BulkEdit.png?raw=true)
 
 ## SharePoint Column Types Supported For Edit
 
@@ -132,7 +138,7 @@ Then you can add the Apps Gallery SharePoint Document Grid PCF control to this S
 
 After installing the managed solution to your Dynamics 365 instance, a new Model-driven App "Apps Gallery SharePoint Document Grid" will be available. This app contains the configuration tables an admin will need to setup the solution.
 
-![Configurations](Configurations.png)
+![Configurations](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/Configurations.png?raw=true)
 
 ### SharePoint Connection Table
 
@@ -170,7 +176,7 @@ The solution uses an Entra app registration with client ID and certificate authe
 
 Required API Permissions for the app registration are:
 
-![API Permissions](APIPermissions.png)
+![API Permissions](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/APIPermissions.png?raw=true)
 
 The solution uses Application type API permissions to fetch SharePoint document library and term set metadata via both Microsoft Graph and SharePoint APIs.
 
@@ -184,7 +190,7 @@ The following setup is also required for the App Registration.
 
 Navigate to Expose an API under Manage node in the left navigation pane.
 
-![Expose an API](ExposeAPI.png)
+![Expose an API](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/ExposeAPI.png?raw=true)
 
 Add a new Application ID URI
 
@@ -192,13 +198,13 @@ If an Application ID URI has not been entered, you can click the Add button. Thi
 
 Next, click the + Add a scope button under the Scopes defined by this API section.
 
-![Add Scope](AddScope.png)
+![Add Scope](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/AddScope.png?raw=true)
 
 Fill in all the fields as outlined in above screenshot, and save the scope.
 
 Then click the + Add a client application button under Authorized client applications section.
 
-![Add a Client Application](AddClientApp.png)
+![Add a Client Application](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/AddClientApp.png?raw=true)
 
 Enter the current App Registration's client id in Client ID text field, and tick Authorized scopes, which is the one you just created in previous step.
 
@@ -206,19 +212,19 @@ Enter the current App Registration's client id in Client ID text field, and tick
 
 In the Overview page of the App Registration, click Add a Redirect URIs.
 
-![Add a Redirect URI](AddRedirectURI.png)
+![Add a Redirect URI](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/AddRedirectURI.png?raw=true)
 
 It will then navigate to below page, click + Add Redirect URI.
 
-![Click Add Redirect URI](ClickAddRedirectURI.png)
+![Click Add Redirect URI](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/ClickAddRedirectURI.png?raw=true)
 
 Select Single page application
 
-![Select Single Page App](SelectSinglePageApp.png)
+![Select Single Page App](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/SelectSinglePageApp.png?raw=true)
 
 Then enter your Dynamics 365's URL in the Add Redirect URI screen as shown below.
 
-![Add D365 URL to Redirect URI](AddRedirectURIForD365.png)
+![Add D365 URL to Redirect URI](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/AddRedirectURIForD365.png?raw=true)
 
 NOTE: the D365 URL **Should Not** end with /
 
@@ -243,7 +249,7 @@ Each Column Mapping row includes:
 
 To find the internal name of the SharePoint column, go to Document Library Settings in SharePoint, under Columns section, click on the column that you wanted to check for internal name.
 
-![SharePoint Column](SPColumn.png)
+![SharePoint Column](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/SPColumn.png?raw=true)
 
 This will open the Edit Column page in SharePoint. Now, locate the URL of the page, it will be something like:
 
@@ -299,7 +305,7 @@ Use this when a D365 lookup needs to populate a SharePoint lookup column.
 
 For example, below is a SharePoint Lookup field Trading Account that looks up to a separate table called Trading Account that contains Title and Account Code fields.
 
-![SharePoint Lookup Field Configuration](SPLookupField.png)
+![SharePoint Lookup Field Configuration](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SharePointDocumentUpload/SPLookupField.png?raw=true)
 
 - LookupMode: Single or Multiple
 - LookupEntityName: The target table logical name of the D365 lookup field

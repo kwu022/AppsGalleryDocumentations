@@ -1,3 +1,7 @@
+# Product URL
+
+https://apps-gallery.dev/Apps/sharepoint-auto-structure
+
 # Purpose
 
 The Out of the Box SharePoint Online integration creates a document library for a Dynamics 365 Customer Engagement table. All the records in the table have their respective folders in that SharePoint document library.
