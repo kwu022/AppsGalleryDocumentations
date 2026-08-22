@@ -221,6 +221,30 @@ The script must return a string value to be used as the document library name.
 
 Please refer to [JavaScript Custom Script](#javascript-custom-script) for examples.
 
+# Other Scripts
+
+In the Other Scripts tab, you can enter JavaScript code to
+
+- **Parent Location Script**: Specify a parent entity record's SharePoint folder in where the current record's folder should be created.
+- **Sub-folders Script**: Specify an array of string that represent sub-folders to be created in the current record's folder.
+
+## Parent Location Script
+
+The JavaScript must return
+
+- NULL: folder will be created using the Document Library and Folder settings.
+- Entity Reference: current record's folder will be placed in the folder of this entity reference record. A SharePoint folder and document location will be created for the entity reference record if doesn't exist.
+
+Please refer to [JavaScript Custom Script](#javascript-custom-script) for examples.
+
+## Sub-folders Script
+
+The JavaScript must return
+
+- NULL: no sub-folder will be created
+- String Array: A string represents the name or path of sub-folder(s). For example, you can return ["subfolder 1", "subfolder 2", "subfolder 3"], or ["Subfolder 1", "Subfolder 2/level 1", "Subfolder 3/level 1/level 2"].
+
+Please refer to [JavaScript Custom Script](#javascript-custom-script) for examples.
 
 # JavaScript Custom Script
 
@@ -292,6 +316,34 @@ var contact = contacts.Entities[0];
 log('First contact name: ' + contact.Attributes['fullname']);
 ```
 
+## Parent Location Script Example
 
+``` JavaScript
+if (target.LogicalName === "ag_file")
+{
+    var parentContactId = target.GetAttributeValue('ag_parentcontactid');
+    var parentContactEntity= clientService.Retrieve(parentContactId.LogicalName, parentContactId.Id, new ColumnSet('parentcustomerid'));
+    return parentContactEntity.GetAttributeValue('parentcustomerid');
+}
+else{
+    return null;
+}
+```
 
+## Sub-folders Script Example
 
+``` JavaScript
+if (target.LogicalName === "ag_file") {
+    const subfolders = ["Apple/Red/Big", "Banana/Yellow/Long", "Orange/Small"];
+    return subfolders;
+}
+else {
+    return null;
+}
+```
+
+In above example, when the current record's logical name is ag_file, it will create 3 subfolders: Apple, Banana and Orange.
+
+Under Apple subfolder, there will be a folder with name Red. And under folder Red, there will be a folder with name Big.
+
+Same applies to Banana and Orange folders.
