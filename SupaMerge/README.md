@@ -163,7 +163,7 @@ In the configuration record, you can configure below options.
 
 ![Supa Merge Config Auto Merge](SupaMergeConfigAutoMerge.png)
 
-## Merge View Id
+### Merge View Id
 
 This is the unique View GUID of a Dataverse view that contains the columns to be display in the merge screen.
 
@@ -171,7 +171,7 @@ This is the unique View GUID of a Dataverse view that contains the columns to be
 
 An admin will create a custom view for the table, and add all the columns you would like to be displayed in the merge screen for selection. Publish the view and optionally ensure this view is **NOT** included in the model-driven app, so that users won't see this view.
 
-## Security Permission Settings
+### Security Permission Settings
 
 - Grant Full Access to Master Owner
 - Grant Shared Access to Subordinate Owner
@@ -186,7 +186,7 @@ https://support.microsoft.com/en-us/servicing/dynamics/crm/hotfix/2020/10/orgdbo
 
 ![Org Db Settings](OrgDbSettings.png)
 
-## Inactive Master Configuration
+### Inactive Master Configuration
 
 Supa Merge allows selection of an inactive record as the master record. In this case, the inactive record will be reactivated when merge is executed.
 
@@ -196,7 +196,7 @@ Supa Merge allows selection of an inactive record as the master record. In this 
 
 If these two settings are not set, then the engine makes best guess based on the table metadata. i.e. statecode: Active (0) and statuscode: Active (1) for example.
 
-## Auto Merge Custom Script
+### Auto Merge Custom Script
 
 This custom script setting accepts a piece of JavaScript that must return an Array of String. Each string is a column's logical name.
 
@@ -221,7 +221,7 @@ If you are creating a new record or modifying an existing record, this record is
 
 If you run a Duplicate Detection Job, and select a record in the Left vertical pane, this record is the masterEntity. The record you selected in the Right duplicates pane is the subordinateEntity.
 
-## Get Master or Subordinate Attribute Values
+### Get Master or Subordinate Attribute Values
 
 ``` JavaScript
 var name = masterEntity.Attributes['name']; // string
@@ -243,14 +243,14 @@ log('Master account credit limit: ' + creditlimit.Value);
 log('Master account credit on hold: ' + creditonhold);
 ```
 
-## Retrieve an Entity Record
+### Retrieve an Entity Record
 
 ``` JavaScript
 var account2 = clientService.Retrieve('account', new System.Guid('f0969482-6a51-f111-bec6-6045bdc39b78'), new ColumnSet(true));
 log('Account 2 name: ' + account2.Attributes['name']);
 ```
 
-## Execute a Query
+### Execute a Query
 
 ``` JavaScript
 var query = new QueryExpression('contact');
@@ -267,7 +267,7 @@ var contact = contacts.Entities[0];
 log('First contact name: ' + contact.Attributes['fullname']);
 ```
 
-## Example Auto Merge Script
+### Example Auto Merge Script
 
 ``` JavaScript
 // Preserve existing master values; fill only missing email and phone.
@@ -286,3 +286,15 @@ for (var i = 0; i < candidates.length; i++) {
 }
 return fields;
 ```
+
+## Supa Merge Requests
+
+All merge activities performed are stored in this table.
+
+![Supa Merge Request](SupaMergeRequest.png)
+
+Users who can perform merge will need the global Merge permission as well as Create permission to this Supa Merge Request table.
+
+The security role Apps Gallery Supa Merge User will provide the neccessary permission to users who need to perform Merge.
+
+All rows in this table cannot be updated. Admin can configure a Bulk Deletion Job to delete historical merge request records.
