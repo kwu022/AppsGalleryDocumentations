@@ -1,8 +1,6 @@
-# Supa Merge
+# Product URL
 
-## Find duplicates. Keep the right data. Work from one record.
-
-Supa Merge by Apps Gallery brings configurable duplicate detection and controlled record merging to Dynamics 365 Customer Engagement and Microsoft Dataverse model-driven apps. Find potential duplicates, compare the details, and choose what to keep across supported standard and custom tables—all within the application your team already uses.
+https://apps-gallery.dev/Apps/supa-merge
 
 # Purpose
 
@@ -103,11 +101,11 @@ It is recommended to **unpublish** all the OOTB Duplicate Detection rules, and u
 
 Navigate to Apps Gallery Supa Merge Admin model-driven app and select Rules under Duplicate Detection.
 
-![Duplicate Detection Rules](DuplicateDetectionRules.png)
+![Duplicate Detection Rules](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/DuplicateDetectionRules.png?raw=1)
 
 Create rules for the table that you would like to enable duplicate detection.
 
-![Duplicate Detection Rule Setting](DuplicateDetectionRuleSetting.png)
+![Duplicate Detection Rule Setting](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/DuplicateDetectionRuleSetting.png?raw=1)
 
 The syntax of placeholders and functions to be used in FetchXML Filter Fragment are documented in the User Guide tab, which also includes some common, ready-to-adapt examples.
 
@@ -117,7 +115,7 @@ Admin can either delete or deactivate an existing rule for the engine to ignore 
 
 This is similar to the OOTB duplicate detection job. You create a job and the system will fetch the records using FetchXML Filter fragment to obtain all the records need to be checked for duplicates. The FetchXML Filter fragment can be empty. In this case, the system will fetch all records in Dataverse for a table to run duplicate detection.
 
-![Duplicate Detection Job](DuplicateDetectionJob.png)
+![Duplicate Detection Job](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/DuplicateDetectionJob.png?raw=1)
 
 **Note:** The FetchXML Filter fragment here doesn't use dynamic values. You can use FetchXML builder in XRMToolbox to come up with the correct filter element, copy and paste it here.
 
@@ -141,7 +139,7 @@ If there are errors in Power Automate, then Status Reason will be set to Failed.
 
 The Results tab shows all the records that were checked in the left pane, and displays the potential duplicates in the right pane.
 
-![Job Results](JobResults.png)
+![Job Results](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/JobResults.png?raw=1)
 
 User can click the arrow icon to open the record being checked in a new browser tab. The Name column in the duplicates pane are also clickable and opens the record in a new browser tab as well.
 
@@ -151,23 +149,23 @@ User can select one of the duplicates and click the Merge button at the bottom t
 
 In the same Apps Gallery Supa Merge Admin model-driven app, you can find configurations for Supa Merge.
 
-![Supa Merge Config](SupaMergeConfig.png)
+![Supa Merge Config](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/SupaMergeConfig.png?raw=1)
 
 In the configuration record, you can configure below options.
 
 **General Settings**
 
-![Supa Merge Config General](SupaMergeConfigGeneral.png)
+![Supa Merge Config General](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/SupaMergeConfigGeneral.png?raw=1)
 
 **Auto Merge Setting**
 
-![Supa Merge Config Auto Merge](SupaMergeConfigAutoMerge.png)
+![Supa Merge Config Auto Merge](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/SupaMergeConfigAutoMerge.png?raw=1)
 
 ### Merge View Id
 
 This is the unique View GUID of a Dataverse view that contains the columns to be display in the merge screen.
 
-![Merge Screen](MergeScreen.png)
+![Merge Screen](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/MergeScreen.png?raw=1)
 
 An admin will create a custom view for the table, and add all the columns you would like to be displayed in the merge screen for selection. Publish the view and optionally ensure this view is **NOT** included in the model-driven app, so that users won't see this view.
 
@@ -184,7 +182,7 @@ For Account, Contact, Lead and Case, please change the Organization DB settings.
 
 https://support.microsoft.com/en-us/servicing/dynamics/crm/hotfix/2020/10/orgdborgsettings-tool-for-microsoft-dynamics-crm
 
-![Org Db Settings](OrgDbSettings.png)
+![Org Db Settings](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/OrgDbSettings.png?raw=1)
 
 ### Inactive Master Configuration
 
@@ -291,7 +289,7 @@ return fields;
 
 All merge activities performed are stored in this table.
 
-![Supa Merge Request](SupaMergeRequest.png)
+![Supa Merge Request](https://github.com/kwu022/AppsGalleryDocumentations/blob/main/SupaMerge/SupaMergeRequest.png?raw=1)
 
 Users who can perform merge will need the global Merge permission as well as Create permission to this Supa Merge Request table.
 
